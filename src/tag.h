@@ -54,6 +54,7 @@ private:
 	static NAN_METHOD(mifareDesfire_disconnect);
 	static NAN_METHOD(mifareDesfire_authenticate_des);
 	static NAN_METHOD(mifareDesfire_authenticate_3des);
+	static NAN_METHOD(mifareDesfire_authenticate_aes);
 	static NAN_METHOD(mifareDesfire_getApplicationIds);
 	static NAN_METHOD(mifareDesfire_selectApplication);
 	static NAN_METHOD(mifareDesfire_getFileIds);
