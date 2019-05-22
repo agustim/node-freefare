@@ -133,6 +133,20 @@ NAN_METHOD(Tag::mifareDesfire_authenticate_3des) {
 
 	mifare_desfire_key_free(key);
 }
+NAN_METHOD(Tag::mifareDesfire_authenticate_aes) {
+	Tag* obj = ObjectWrap::Unwrap<Tag>(info.This());
+
+	MifareDESFireKey key = mifare_desfire_aes_key_new(reinterpret_cast<uint8_t*>(node::Buffer::Data(info[1])));
+
+	AsyncQueueWorker(new mifareDesfire_authenticateWorker(
+		new Callback(info[2].As<v8::Function>()),
+		obj->tag,
+		info[0]->Uint32Value(),
+		key
+	));
+
+	mifare_desfire_key_free(key);
+}
 
 class mifareDesfire_getApplicationIdsWorker : public AsyncWorker {
 public:

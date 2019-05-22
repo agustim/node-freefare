@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ALabate/node-freefare.git"
+    "url": "git+https://github.com/agustim/node-freefare.git"
   },
   "keywords": [
     "libnfc",
@@ -21,10 +21,6 @@
   ],
   "author": "Aurélien Labate <aurelien@labate.me>",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/ALabate/node-freefare/issues"
-  },
-  "homepage": "https://github.com/ALabate/node-freefare#readme",
   "dependencies": {
     "bindings": "^1.1.0",
     "nan": "^2.4.0"
