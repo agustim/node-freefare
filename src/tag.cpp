@@ -41,6 +41,7 @@ NAN_MODULE_INIT(Tag::Init) {
 	Nan::SetPrototypeMethod(tpl, "mifareDesfire_disconnect", Tag::mifareDesfire_disconnect);
 	Nan::SetPrototypeMethod(tpl, "mifareDesfire_authenticate_des", Tag::mifareDesfire_authenticate_des);
 	Nan::SetPrototypeMethod(tpl, "mifareDesfire_authenticate_3des", Tag::mifareDesfire_authenticate_3des);
+	Nan::SetPrototypeMethod(tpl, "mifareDesfire_authenticate_aes", Tag::mifareDesfire_authenticate_aes);
 	Nan::SetPrototypeMethod(tpl, "mifareDesfire_getApplicationIds", Tag::mifareDesfire_getApplicationIds);
 	Nan::SetPrototypeMethod(tpl, "mifareDesfire_selectApplication", Tag::mifareDesfire_selectApplication);
 	Nan::SetPrototypeMethod(tpl, "mifareDesfire_getFileIds", Tag::mifareDesfire_getFileIds);
