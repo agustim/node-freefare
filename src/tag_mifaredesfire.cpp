@@ -80,7 +80,7 @@ public:
 	~mifareDesfire_authenticateWorker() {}
 
 	void Execute () {
-		error = mifare_desfire_authenticate(tag, key_no, key);
+		error = mifare_desfire_authenticate_aes(tag, key_no, key);
 	}
 
 	void HandleOKCallback () {
@@ -105,6 +105,8 @@ private:
 	int error;
 
 };
+
+
 NAN_METHOD(Tag::mifareDesfire_authenticate_des) {
 	Tag* obj = ObjectWrap::Unwrap<Tag>(info.This());
 
