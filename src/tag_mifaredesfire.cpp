@@ -182,7 +182,7 @@ NAN_METHOD(Tag::mifareDesfire_authenticate_aes) {
 		key
 	));
 
-	//If free key, we can use in next calls.
+	//If free key, we can not use in next calls.
 	//mifare_desfire_key_free(key);
 }
 
