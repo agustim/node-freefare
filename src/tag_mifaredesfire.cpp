@@ -80,6 +80,39 @@ public:
 	~mifareDesfire_authenticateWorker() {}
 
 	void Execute () {
+		error = mifare_desfire_authenticate(tag, key_no, key);
+	}
+
+	void HandleOKCallback () {
+		Nan::HandleScope scope;
+
+		v8::Local<v8::Value> argv[] = {
+			New<v8::Number>(error)
+		};
+
+		callback->Call(1, argv);
+	}
+private:
+
+	// Our current tag
+	MifareTag tag;
+
+	// Key
+	uint8_t key_no;
+	MifareDESFireKey key;
+
+	// Error ID or 0
+	int error;
+
+};
+
+class mifareDesfire_authenticateAESWorker : public AsyncWorker {
+public:
+	mifareDesfire_authenticateAESWorker(Callback *callback, MifareTag tag, const uint8_t key_no, MifareDESFireKey key)
+	: AsyncWorker(callback), tag(tag), key_no(key_no), key(key), error(0) {}
+	~mifareDesfire_authenticateAESWorker() {}
+
+	void Execute () {
 		error = mifare_desfire_authenticate_aes(tag, key_no, key);
 	}
 
@@ -107,6 +140,7 @@ private:
 };
 
 
+
 NAN_METHOD(Tag::mifareDesfire_authenticate_des) {
 	Tag* obj = ObjectWrap::Unwrap<Tag>(info.This());
 
@@ -118,7 +152,7 @@ NAN_METHOD(Tag::mifareDesfire_authenticate_des) {
 		info[0]->Uint32Value(),
 		key
 	));
-
+	// Maybe next line have a bug!!!
 	mifare_desfire_key_free(key);
 }
 NAN_METHOD(Tag::mifareDesfire_authenticate_3des) {
@@ -133,6 +167,7 @@ NAN_METHOD(Tag::mifareDesfire_authenticate_3des) {
 		key
 	));
 
+	// Maybe next line have a bug!!!
 	mifare_desfire_key_free(key);
 }
 NAN_METHOD(Tag::mifareDesfire_authenticate_aes) {
@@ -140,14 +175,15 @@ NAN_METHOD(Tag::mifareDesfire_authenticate_aes) {
 
 	MifareDESFireKey key = mifare_desfire_aes_key_new(reinterpret_cast<uint8_t*>(node::Buffer::Data(info[1])));
 
-	AsyncQueueWorker(new mifareDesfire_authenticateWorker(
+	AsyncQueueWorker(new mifareDesfire_authenticateAESWorker(
 		new Callback(info[2].As<v8::Function>()),
 		obj->tag,
 		info[0]->Uint32Value(),
 		key
 	));
 
-	mifare_desfire_key_free(key);
+	//If free key, we can use in next calls.
+	//mifare_desfire_key_free(key);
 }
 
 class mifareDesfire_getApplicationIdsWorker : public AsyncWorker {
