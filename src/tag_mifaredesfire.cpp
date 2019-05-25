@@ -370,6 +370,57 @@ NAN_METHOD(Tag::mifareDesfire_read) {
 	AsyncQueueWorker(new mifareDesfire_readWorker(callback, obj->tag, info[0]->Uint32Value(), info[1]->Uint32Value(), info[2]->Uint32Value()));
 }
 
+// Read File
+class mifareDesfire_readFileWorker : public AsyncWorker {
+public:
+	mifareDesfire_readFileWorker(Callback *callback, MifareTag tag, uint8_t file)
+	: AsyncWorker(callback), tag(tag), file(file), error(0) {
+		struct mifare_desfire_file_settings fsettings;
+		mifare_desfire_get_file_settings(tag, file, &fsettings);
+      	length = (size_t)fsettings.settings.standard_file.file_size;
+	}
+	~mifareDesfire_readFileWorker() {}
+
+	void Execute () {
+		data = (uint8_t*) malloc((length+1)*sizeof(uint8_t));
+		error = mifare_desfire_read_data(tag, file, 0, length, data);
+	}
+
+	void HandleOKCallback () {
+		Nan::HandleScope scope;
+
+		v8::Local<v8::Value> buf = Null();
+
+		if(error > 0) {
+			buf =  Nan::CopyBuffer(reinterpret_cast<char*>(data), length+1).ToLocalChecked();
+			error = 0;
+		}
+		free(data);
+
+		v8::Local<v8::Value> argv[] = {
+			New<v8::Number>(error),
+			buf
+		};
+		callback->Call(2, argv);
+	}
+private:
+
+	// Our current tag
+	MifareTag tag;
+
+	uint8_t file;
+	size_t length;
+	uint8_t* data;
+
+	// Error ID or 0
+	int error;
+
+};
+NAN_METHOD(Tag::mifareDesfire_readFile) {
+	Tag* obj = ObjectWrap::Unwrap<Tag>(info.This());
+	Callback *callback = new Callback(info[1].As<v8::Function>());
+	AsyncQueueWorker(new mifareDesfire_readFileWorker(callback, obj->tag, info[0]->Uint32Value()));
+}
 
 class mifareDesfire_writeWorker : public AsyncWorker {
 public:

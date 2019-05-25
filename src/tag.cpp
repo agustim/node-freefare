@@ -47,6 +47,7 @@ NAN_MODULE_INIT(Tag::Init) {
 	Nan::SetPrototypeMethod(tpl, "mifareDesfire_getFileIds", Tag::mifareDesfire_getFileIds);
 	Nan::SetPrototypeMethod(tpl, "mifareDesfire_write", Tag::mifareDesfire_write);
 	Nan::SetPrototypeMethod(tpl, "mifareDesfire_read", Tag::mifareDesfire_read);
+	Nan::SetPrototypeMethod(tpl, "mifareDesfire_readFile", Tag::mifareDesfire_readFile);
 
 
 	constructor().Reset(Nan::GetFunction(tpl).ToLocalChecked());

@@ -60,6 +60,7 @@ private:
 	static NAN_METHOD(mifareDesfire_getFileIds);
 	static NAN_METHOD(mifareDesfire_write);
 	static NAN_METHOD(mifareDesfire_read);
+	static NAN_METHOD(mifareDesfire_readFile);
 
 
 private:
