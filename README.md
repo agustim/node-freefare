@@ -289,6 +289,17 @@ Authenticate with a 3DES key
 
 **Returns**: `Promise`, A promise to the end of the action.
 
+#### MifareDesfireTag.authenticateAES(KeyNum, key)
+
+Authenticate with a AES key
+
+**Parameters**
+
+* **KeyNum**: `Number`, The number of the key
+* **key**: `Buffer`, The 16 byte key
+
+**Returns**: `Promise`, A promise to the end of the action.
+
 #### MifareDesfireTag.getApplicationIds()
 
 List application IDs (AID)
@@ -320,6 +331,16 @@ Read the given file
 * **file**: `Number`, The file ID
 * **offset**: `Number`, The number of bytes before we start reading in the file
 * **length**: `Number`, The number of bytes we will read in the file
+
+**Returns**: `Promise.<Buffer>`, A promise to the read data
+
+### MifareDesfireTag.readFile(fileID)
+
+Read the given file
+
+**Parameters**
+
+* **fileID**: `Number`, The file ID
 
 **Returns**: `Promise.<Buffer>`, A promise to the read data
 
